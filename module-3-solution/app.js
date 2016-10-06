@@ -1,50 +1,43 @@
 (function () {
 'use strict';
 
-angular.module('Shopping', [])
-.controller('ToBuyShoppingController', ToBuyShoppingController)
-.controller('AlreadyBoughtShoppingController', AlreadyBoughtShoppingController)
-.service('ShoppingListCheckOffService', ShoppingListCheckOffService)
-ToBuyShoppingController.$inject = ['$scope', 'ShoppingListCheckOffService'];
-AlreadyBoughtShoppingController.$inject = ['$scope', 'ShoppingListCheckOffService'];
+angular.module('Menu', [])
+.controller('NarrowItDownController', NarrowItDownController)
+.service('MenuSearchService', MenuSearchService)
+NarrowItDownController.$inject = ['$scope', 'MenuSearchService'];
+MenuSearchService.$inject = ['$http'];
 
-function ToBuyShoppingController($scope, ShoppingListCheckOffService) {
-  var toBuy = this;
-  toBuy.list = ShoppingListCheckOffService.getToBuyList();
+function NarrowItDownController($scope, MenuSearchService) {
+  var menu = this;
+  menu.searchTerm = "";
 
-  toBuy.buy = function functionName(index) {
-      ShoppingListCheckOffService.buy(index)
+  menu.narrowIt = function()
+  {
+    MenuSearchService.getMatchedMenuItem(menu.searchTerm).then(function(items)
+    {
+      console.log(items);
+    })
+
   }
 }
 
-function AlreadyBoughtShoppingController($scope, ShoppingListCheckOffService) {
-  var alreadyBought = this;
-  alreadyBought.list = ShoppingListCheckOffService.getAlreadyBoughtList();
-}
-
-function ShoppingListCheckOffService() {
+function MenuSearchService($http){
   var service = this;
-  var toBuyList = [
-    { name: "cookies", quantity: "5" },
-    { name: "chips", quantity: "24" },
-    { name: "potatos", quantity: "4" },
-    { name: "beers", quantity: "13" },
-    { name: "apples", quantity: "8" }
-  ];
-  var boughtList = [];
-  service.buy = function (index) {
-    var item = toBuyList[index];
-    boughtList.push(item);
-    toBuyList.splice(index,1);
-  };
-
-  service.getToBuyList = function () {
-    return toBuyList;
+  service.getMatchedMenuItem = function(searchTerm) {
+    return $http({
+      method: 'GET',
+      url: 'https://davids-restaurant.herokuapp.com/menu_items.json'
+    }).then(function (result) {
+    // process result and only keep items that match
+    var foundItems = result.data.menu_items;
+    // return processed items
+    return foundItems.filter(function(item)
+    {
+        return item.description.includes(searchTerm)
+    })
+    });
   }
-  service.getAlreadyBoughtList = function () {
-    return boughtList;
-  }
-
 }
 
-})();
+}
+)();
