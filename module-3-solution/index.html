@@ -16,12 +16,14 @@
     <div class="form-group narrow-button">
       <button class="btn btn-primary" ng-click="narrow.narrowIt()">Narrow It Down For Me!</button>
     </div>
-
-    <!-- Bonus loader (see Bonus section of the assignment) -->
-    <items-loader-indicator></items-loader-indicator>
-
+    <div class="row">
+      <div ng-if="narrow.empty">
+        Nothing found
+      </div>
+    </div>
     <!-- found-items should be implemented as a component -->
-    <found-items found-items="...." on-remove="...."></found-items>
+    <found-items items="narrow.found" on-remove="narrow.remove(index)"></found-items>
+
   </div>
   <script type="text/javascript" src="angular.min.js"></script>
   <script type="text/javascript" src="app.js"></script>
