@@ -1,0 +1,28 @@
+<div id="main-content" class="container">
+  <div class="form-group" ng-hide="infoCtrl.registered">
+    Not Signed Up Yet.
+    <a ui-sref='public.signUp'>Sign up Now!</a>
+  </div>
+  <div ng-show="infoCtrl.registered">
+    <div class="form-group">
+      <label for="">{{infoCtrl.firstName}}</label>
+    </div>
+    <div class="form-group">
+      <label for="">{{infoCtrl.lastName}}</label>
+    </div>
+    <div class="form-group">
+      <label for="">{{infoCtrl.email}}</label>
+    </div>
+    <div class="form-group">
+      <label for="">{{infoCtrl.phone}}</label>
+    </div>
+    <div class="form-group">
+      <label for="">{{infoCtrl.name}}</label>
+    </div>
+    <div class="form-group">
+      <label for="">{{infoCtrl.description}}</label>
+    </div>
+    <img ng-src="{{infoCtrl.imagePath}}" alt="" />
+
+  </div>
+</div>

@@ -1,4 +1,7 @@
 <div id="main-content" class="container">
+  <div class="text-info" ng-show="signUpCtrl.showMessage">
+    {{signUpCtrl.message}}
+  </div>
 <form novalidate name="signUpForm">
   <div class="form-group">
 		<label for="name" class="cols-sm-2 control-label">First name</label>
